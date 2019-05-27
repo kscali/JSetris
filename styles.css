@@ -1,0 +1,95 @@
+body {
+  background-image: linear-gradient(black 30%, purple);
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+.instructions {
+  display: flex;
+  justify-content: center;
+  margin-right: 100px;
+  border: 5px solid lightgray;
+  color: white;
+  background: black;
+  padding: 5px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 200px;
+  margin-left: auto;
+  text-align: center;
+}
+
+header {
+  margin-top: 50px;
+}
+
+#tetris {
+  border: 10px solid lightgray;
+  border-radius: 20px;
+}
+
+img {
+  width: 200px;
+}
+
+.social {
+  width: 50px;
+  margin-bottom: 15px;
+}
+
+.score-level {
+  display: flex;
+  color: white;
+  justify-content: center;
+}
+
+p {
+  margin-bottom: 0;
+}
+.scorebox {
+  border: 5px solid lightgray;
+  color: white;
+  background: black;
+  padding: 5px 15px;
+  border-radius: 10px;
+  margin-right: 15px;
+  margin-bottom: 20px;
+  display: flex;
+  width: 200px;
+  justify-content: center;
+}
+
+h4 {
+  color: white;
+}
+
+.col {
+  width: 150px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}
+
+.next-piece {
+  border: 5px solid lightgray;
+  color: white;
+  background: black;
+  padding: 5px 15px;
+  border-radius: 10px;
+
+  display: flex;
+  width: 150px;
+  height: 150px;
+}
+
+footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 100px;
+}
+
+footer > a {
+  margin-right: 20px;
+}
