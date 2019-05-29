@@ -14,92 +14,115 @@
     <title>Tetris</title>
   </head>
   <body>
-    <header class="text-center">
-      <img src="./images/tetris.jpg" alt="tetris-logo" />
+    <div class="wrapper">
+      <header class="text-center">
+        <!-- <img src="./images/tetris.jpg" alt="tetris-logo" /> -->
+        <h1 class="tetris-header">Tetris</h1>
+        <nav>
+          <ul>
+            <li
+              class="instructions"
+              data-toggle="modal"
+              data-target="#exampleModalCenter"
+            >
+              Instructions
+            </li>
+            <li id="start">
+              Start
+            </li>
+            <li id="pause">Pause</li>
+            <li id="reset">Reset</li>
+            <li id="music">Music On</li>
+          </ul>
+        </nav>
+      </header>
+      <section class="container-fluid text-center">
+        <div
+          class="modal fade"
+          id="exampleModalCenter"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">
+                  How To Play
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>- Use the arrow keys to move left or right.</p>
+                <p>- Press down to speed up descent.</p>
+                <p>- Rotate left or right by pressing "a" or "s".</p>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col next-piece-div">
+            <h4>Next Piece</h4>
+            <div class="next-piece"></div>
+          </div>
+          <div class="col-5">
+            <div class="score-level">
+              <div>
+                <h4>Score</h4>
+                <div class="scorebox">
+                  <p id="score">0</p>
+                </div>
+              </div>
+              <div>
+                <h4>Level</h4>
+                <div class="scorebox">
+                  <p id="level">0</p>
+                </div>
+              </div>
+            </div>
+            <canvas id="tetris" width="240" height="400"></canvas>
+          </div>
+          <div class="col social-col">
+            controls
+          </div>
+        </div>
+      </section>
+      <footer>
+        <a href="http://github.com/kscali"
+          ><img class="social" src="./images/icons8-github-100.png" alt="github"
+        /></a>
+        <a href="http://www.linkedin.com/in/koy-saeteurn-98169a167"
+          ><img
+            class="social"
+            src="./images/icons8-linkedin-filled-100.png"
+            alt="linked"
+        /></a>
 
-      <h4
-        class="instructions"
-        data-toggle="modal"
-        data-target="#exampleModalCenter"
-      >
-        Instructions
-      </h6>
-    </header>
-    <section class="container-fluid text-center">
-      <div
-        class="modal fade"
-        id="exampleModalCenter"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalCenterTitle">
-                Instructions
-              </h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>- Use the arrow keys to move left or right.</p>
-              <p>- Press down to speed up descent.</p>
-              <p>- Rotate left or right by pressing "a" or "s".</p>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <h4>Next Piece</h4>
-          <div class="next-piece"></div>
-        </div>
-        <div class="col-5">
-          <div class="score-level">
-            <div>
-              <h4>Score</h4>
-              <div class="scorebox">
-                <p id="score">0</p>
-              </div>
-            </div>
-            <div>
-              <h4>Level</h4>
-              <div class="scorebox">
-                <p id="level">0</p>
-              </div>
-            </div>
-          </div>
-          <canvas id="tetris" width="440" height="600"></canvas>
-        </div>
-        <div class="col social-col">
-          controls
-        </div>
-      </div>
- 
-    </section>
-    <footer>
-                <a href="http://github.com/kscali"><img class="social" src="./images/icons8-github-100.png" alt="github"></a>
-                <a href="http://www.linkedin.com/in/koy-saeteurn-98169a167"><img class="social"
-                    src="./images/icons8-linkedin-filled-100.png" alt="linked"></a>
-                <a href="mailto:kosatun@aol.com"><img class="social" src="./images/icons8-secured-letter-filled-100.png" alt=""></a>
-    </footer>
+        <a href="mailto:kosatun@aol.com"
+          ><img
+            class="social"
+            src="./images/icons8-secured-letter-filled-100.png"
+            alt=""
+        /></a>
+      </footer>
+    </div>
     <script type="text/javascript" src="tetris.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

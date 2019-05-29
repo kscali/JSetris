@@ -1,31 +1,23 @@
 const canvas = document.getElementById("tetris");
-const ctx = canvas.getContext("2d");
+const context = canvas.getContext("2d");
 
-ctx.scale(20, 20);
+context.scale(20, 20);
 
-function createMatrix(w, h) {
-  const matrix = [];
-  while (h--) {
-    matrix.push(new Array(w).fill(0));
-  }
-  return matrix;
-}
+function clearBlocks() {
+  let rowCount = 1;
+  outer: for (let y = arena.length - 1; y > 0; --y) {
+    for (let x = 0; x < arena[y].length; ++x) {
+      if (arena[y][x] === 0) {
+        continue outer;
+      }
+    }
 
-function createPiece(type) {
-  if (type === "I") {
-    return [[0, 1, 0], [0, 1, 0], [0, 1, 0], [0, 1, 0]];
-  } else if (type === "L") {
-    return [[0, 2, 0], [0, 2, 0], [0, 2, 2]];
-  } else if (type === "J") {
-    return [[0, 3, 0], [0, 3, 0], [3, 3, 0]];
-  } else if (type === "O") {
-    return [[4, 4], [4, 4]];
-  } else if (type === "Z") {
-    return [[5, 5, 0], [0, 5, 0], [0, 5, 5]];
-  } else if (type === "S") {
-    return [[0, 6, 6], [0, 6, 0], [6, 6, 0]];
-  } else if (type == "T") {
-    return [[7, 7, 7], [0, 7, 0], [0, 7, 0]];
+    const row = arena.splice(y, 1)[0].fill(0);
+    arena.unshift(row);
+    ++y;
+
+    player.score += rowCount * 10;
+    rowCount *= 2;
   }
 }
 
@@ -42,27 +34,46 @@ function collide(arena, player) {
   return false;
 }
 
-const arena = createMatrix(22, 30);
+function createMatrix(w, h) {
+  const matrix = [];
+  while (h--) {
+    matrix.push(new Array(w).fill(0));
+  }
+  return matrix;
+}
+
+function createPiece(type) {
+  if (type === "I") {
+    return [[0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0]];
+  } else if (type === "L") {
+    return [[0, 2, 0], [0, 2, 0], [0, 2, 2]];
+  } else if (type === "J") {
+    return [[0, 3, 0], [0, 3, 0], [3, 3, 0]];
+  } else if (type === "O") {
+    return [[4, 4], [4, 4]];
+  } else if (type === "Z") {
+    return [[5, 5, 0], [0, 5, 5], [0, 0, 0]];
+  } else if (type === "S") {
+    return [[0, 6, 6], [6, 6, 0], [0, 0, 0]];
+  } else if (type === "T") {
+    return [[0, 7, 0], [7, 7, 7], [0, 0, 0]];
+  }
+}
 
 function drawMatrix(matrix, offset) {
   matrix.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value !== 0) {
-        ctx.fillStyle = colors[value];
-        ctx.fillRect(x + offset.x, y + offset.y, 1, 1);
+        context.fillStyle = colors[value];
+        context.fillRect(x + offset.x, y + offset.y, 1, 1);
       }
     });
   });
 }
 
-const player = {
-  pos: { x: 5, y: 3 },
-  matrix: null
-};
-
 function draw() {
-  ctx.fillStyle = "#000";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = "#000";
+  context.fillRect(0, 0, canvas.width, canvas.height);
 
   drawMatrix(arena, { x: 0, y: 0 });
   drawMatrix(player.matrix, player.pos);
@@ -94,40 +105,47 @@ function rotate(matrix, dir) {
 
 function playerDrop() {
   player.pos.y++;
-
   if (collide(arena, player)) {
     player.pos.y--;
     merge(arena, player);
     playerReset();
+    clearBlocks();
+    updateScore();
   }
   dropCounter = 0;
 }
 
 function playerMove(offset) {
   player.pos.x += offset;
-
   if (collide(arena, player)) {
     player.pos.x -= offset;
   }
 }
 
 function playerReset() {
+  player.matrix = createPiece("T");
   const pieces = "TJLOSZI";
   player.matrix = createPiece(pieces[(pieces.length * Math.random()) | 0]);
   player.pos.y = 0;
   player.pos.x =
     ((arena[0].length / 2) | 0) - ((player.matrix[0].length / 2) | 0);
-
   if (collide(arena, player)) {
-    arena.forEach(row => row.fill(0));
+    resetGame();
   }
+}
+
+function resetGame() {
+  arena.forEach(row => row.fill(0));
+  player.score = 0;
+  player.level = 0;
+  dropInterval = 1000;
+  updateScore();
 }
 
 function playerRotate(dir) {
   const pos = player.pos.x;
   let offset = 1;
   rotate(player.matrix, dir);
-
   while (collide(arena, player)) {
     player.pos.x += offset;
     offset = -(offset + (offset > 0 ? 1 : -1));
@@ -141,48 +159,94 @@ function playerRotate(dir) {
 
 let dropCounter = 0;
 let dropInterval = 1000;
-
+let levelSize = 1000;
+let levelSpeedIncrease = 10;
+let paused = true;
 let lastTime = 0;
 
 function update(time = 0) {
   const deltaTime = time - lastTime;
 
   dropCounter += deltaTime;
-
   if (dropCounter > dropInterval) {
     playerDrop();
   }
 
   lastTime = time;
-  draw();
 
-  requestAnimationFrame(update);
+  draw();
+  if (!paused) {
+    requestAnimationFrame(update);
+  } else {
+    cancelAnimationFrame(update);
+  }
 }
 
-document.addEventListener("keydown", e => {
-  if (e.keyCode === 37) {
+function updateScore() {
+  if (player.score - levelSize * player.level >= levelSize) {
+    player.level++;
+    dropInterval -= levelSpeedIncrease;
+  }
+  document.getElementById("score").innerText = player.score;
+  document.getElementById("level").innerText = player.level;
+}
+
+function start() {
+  playerReset();
+  updateScore();
+  update();
+  document.getElementById("start").disabled = true;
+}
+
+function pause() {
+  paused = true;
+}
+
+document.addEventListener("keydown", event => {
+  if (event.keyCode === 37) {
     playerMove(-1);
-  } else if (e.keyCode === 39) {
+  } else if (event.keyCode === 39) {
     playerMove(1);
-  } else if (e.keyCode === 40) {
+  } else if (event.keyCode === 40) {
     playerDrop();
-  } else if (e.keyCode === 65) {
+  } else if (event.keyCode === 81) {
     playerRotate(-1);
-  } else if (e.keyCode === 83) {
+  } else if (event.keyCode === 87) {
     playerRotate(1);
+  }
+});
+
+document.addEventListener("click", event => {
+  let start = document.getElementById("start");
+  let pause = document.getElementById("pause");
+  // debugger;
+  if (event.target === start) {
+    this.start();
+  } else if (event.target === pause) {
+    this.pause();
   }
 });
 
 const colors = [
   null,
-  "blue",
   "purple",
-  "red",
   "yellow",
+  "orange",
+  "blue",
   "aqua",
-  "pink",
-  "white"
+  "green",
+  "red"
 ];
 
-playerReset();
-update();
+const arena = createMatrix(12, 20);
+
+const player = {
+  pos: { x: 0, y: 0 },
+  matrix: null,
+  score: 0,
+  level: 0
+};
+
+// playerReset();
+// updateScore();
+// update();

@@ -1,22 +1,40 @@
 body {
-  background-image: linear-gradient(black 30%, purple);
+  background: linear-gradient(black 30%, purple);
   background-repeat: no-repeat;
-  height: 100vh;
+  /* height: 100%;
+  width: 100%; */
+  margin: 0;
 }
 
-.instructions {
+nav {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+ul {
+  display: flex;
+  justify-content: center;
+}
+
+ul > li {
   display: flex;
   justify-content: center;
   margin-right: 100px;
   border: 5px solid lightgray;
   color: white;
-  background: black;
+  background: purple;
   padding: 5px 15px;
   border-radius: 10px;
   cursor: pointer;
-  width: 200px;
+  width: 150px;
   margin-left: auto;
   text-align: center;
+  list-style: none;
+}
+
+ul > li:hover {
+  background: black;
 }
 
 header {
@@ -28,8 +46,136 @@ header {
   border-radius: 20px;
 }
 
-img {
+/* img {
   width: 200px;
+  margin: 0 auto;
+} */
+
+/* Font options */
+.tetris-header {
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 80px;
+  font-weight: bold;
+
+  /* Chrome, Safari, Opera */
+  -webkit-animation: rainbow 5s infinite;
+
+  /* Internet Explorer */
+  -ms-animation: rainbow 5s infinite;
+
+  /* Standar Syntax */
+  animation: rainbow 5s infinite;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes rainbow {
+  0% {
+    color: orange;
+  }
+  10% {
+    color: purple;
+  }
+  20% {
+    color: red;
+  }
+  30% {
+    color: CadetBlue;
+  }
+  40% {
+    color: yellow;
+  }
+  50% {
+    color: coral;
+  }
+  60% {
+    color: green;
+  }
+  70% {
+    color: cyan;
+  }
+  80% {
+    color: DeepPink;
+  }
+  90% {
+    color: DodgerBlue;
+  }
+  100% {
+    color: orange;
+  }
+}
+
+/* Internet Explorer */
+@-ms-keyframes rainbow {
+  0% {
+    color: orange;
+  }
+  10% {
+    color: purple;
+  }
+  20% {
+    color: red;
+  }
+  30% {
+    color: CadetBlue;
+  }
+  40% {
+    color: yellow;
+  }
+  50% {
+    color: coral;
+  }
+  60% {
+    color: green;
+  }
+  70% {
+    color: cyan;
+  }
+  80% {
+    color: DeepPink;
+  }
+  90% {
+    color: DodgerBlue;
+  }
+  100% {
+    color: orange;
+  }
+}
+
+/* Standar Syntax */
+@keyframes rainbow {
+  0% {
+    color: orange;
+  }
+  10% {
+    color: purple;
+  }
+  20% {
+    color: red;
+  }
+  30% {
+    color: CadetBlue;
+  }
+  40% {
+    color: yellow;
+  }
+  50% {
+    color: coral;
+  }
+  60% {
+    color: green;
+  }
+  70% {
+    color: cyan;
+  }
+  80% {
+    color: DeepPink;
+  }
+  90% {
+    color: DodgerBlue;
+  }
+  100% {
+    color: orange;
+  }
 }
 
 .social {
@@ -85,11 +231,97 @@ h4 {
 }
 
 footer {
-  display: flex;
-  justify-content: flex-end;
   margin-right: 100px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
 }
 
 footer > a {
   margin-right: 20px;
+}
+
+/* modal */
+.modal-content {
+  border: 5px solid white;
+  color: white;
+  background: black;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.close > span {
+  color: white;
+}
+
+.btn-secondary {
+  border: 2px solid white;
+  background: purple;
+}
+
+.btn-secondary:hover {
+  border: 2px solid purple;
+  background: white;
+  color: purple;
+}
+
+@media (max-width: 400px) {
+  body {
+    background-size: cover;
+  }
+
+  .next-piece-div {
+    display: none;
+  }
+
+  #tetris {
+    width: 350px;
+  }
+
+  .scorebox {
+    width: 150px;
+    margin-left: 10px;
+  }
+  .score-level {
+    justify-content: flex-start;
+  }
+}
+
+@media screen and (min-width: 401px) and (max-width: 600px) {
+  body {
+    background-size: cover;
+  }
+
+  .instructions {
+    margin: 10px auto;
+  }
+
+  .next-piece-div {
+    display: none;
+  }
+
+  #tetris {
+    width: 350px;
+  }
+
+  .scorebox {
+    width: 150px;
+    margin-left: 10px;
+  }
+  .score-level {
+    justify-content: flex-start;
+  }
+
+  footer {
+    margin-right: 100px;
+    position: absolute;
+    bottom: -30px;
+    right: 0;
+  }
+}
+
+@media (min-width: 1600px) {
+  body {
+    height: 100vh;
+  }
 }
