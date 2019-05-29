@@ -1,6 +1,9 @@
 const canvas = document.getElementById("tetris");
 const context = canvas.getContext("2d");
+const nextPieceCanvas = document.getElementById("next-piece");
+const ctx = nextPieceCanvas.getContext("2d");
 
+ctx.scale(20, 20);
 context.scale(20, 20);
 
 function clearBlocks() {
@@ -74,9 +77,23 @@ function drawMatrix(matrix, offset) {
 function draw() {
   context.fillStyle = "#000";
   context.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, nextPieceCanvas.width, nextPieceCanvas.height);
 
   drawMatrix(arena, { x: 0, y: 0 });
   drawMatrix(player.matrix, player.pos);
+  drawNextMatrix(player.upcomingBlocks[0], { x: 2.5, y: 2 });
+}
+
+function drawNextMatrix(matrix, offset) {
+  matrix.forEach((row, y) => {
+    row.forEach((value, x) => {
+      if (value !== 0) {
+        ctx.fillStyle = colors[value];
+        ctx.fillRect(x + offset.x, y + offset.y, 1, 1);
+      }
+    });
+  });
 }
 
 function merge(arena, player) {
@@ -123,12 +140,20 @@ function playerMove(offset) {
 }
 
 function playerReset() {
-  player.matrix = createPiece("T");
+  // player.matrix = createPiece("T");
   const pieces = "TJLOSZI";
-  player.matrix = createPiece(pieces[(pieces.length * Math.random()) | 0]);
+  while (player.upcomingBlocks.length < 3) {
+    player.upcomingBlocks.push(
+      createPiece(pieces[(pieces.length * Math.random()) | 0])
+    );
+  }
+  player.matrix = player.upcomingBlocks.shift();
+
   player.pos.y = 0;
   player.pos.x =
     ((arena[0].length / 2) | 0) - ((player.matrix[0].length / 2) | 0);
+  // debugger;
+
   if (collide(arena, player)) {
     resetGame();
   }
@@ -161,25 +186,25 @@ let dropCounter = 0;
 let dropInterval = 1000;
 let levelSize = 1000;
 let levelSpeedIncrease = 10;
-let paused = true;
+let paused = false;
 let lastTime = 0;
 
 function update(time = 0) {
   const deltaTime = time - lastTime;
 
   dropCounter += deltaTime;
-  if (dropCounter > dropInterval) {
+  if (dropCounter > dropInterval && !paused) {
     playerDrop();
   }
 
   lastTime = time;
 
   draw();
-  if (!paused) {
-    requestAnimationFrame(update);
-  } else {
-    cancelAnimationFrame(update);
-  }
+  // if (!paused) {
+  requestAnimationFrame(update);
+  // } else {
+  //   cancelAnimationFrame(update);
+  // }
 }
 
 function updateScore() {
@@ -202,6 +227,17 @@ function pause() {
   paused = true;
 }
 
+function resume() {
+  paused = false;
+  update();
+}
+
+function reset() {
+  this.resetGame();
+  paused = true;
+  start();
+}
+
 document.addEventListener("keydown", event => {
   if (event.keyCode === 37) {
     playerMove(-1);
@@ -219,11 +255,21 @@ document.addEventListener("keydown", event => {
 document.addEventListener("click", event => {
   let start = document.getElementById("start");
   let pause = document.getElementById("pause");
-  // debugger;
+  let resume = document.getElementById("resume");
+  let reset = document.getElementById("reset");
+
   if (event.target === start) {
     this.start();
   } else if (event.target === pause) {
     this.pause();
+    pause.innerText = "Resume";
+    pause.id = "resume";
+  } else if (event.target === resume) {
+    resume.innerText = "Pause";
+    resume.id = "pause";
+    this.resume();
+  } else if (event.target === reset) {
+    this.reset();
   }
 });
 
@@ -243,10 +289,7 @@ const arena = createMatrix(12, 20);
 const player = {
   pos: { x: 0, y: 0 },
   matrix: null,
+  upcomingBlocks: [],
   score: 0,
   level: 0
 };
-
-// playerReset();
-// updateScore();
-// update();

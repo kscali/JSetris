@@ -56,6 +56,7 @@ header {
   text-shadow: 2px 2px 4px #000000;
   font-size: 80px;
   font-weight: bold;
+  margin-top: 50px;
 
   /* Chrome, Safari, Opera */
   -webkit-animation: rainbow 5s infinite;
@@ -187,6 +188,7 @@ header {
   display: flex;
   color: white;
   justify-content: center;
+  margin-bottom: 20px;
 }
 
 p {
@@ -226,8 +228,6 @@ h4 {
   border-radius: 10px;
 
   display: flex;
-  width: 150px;
-  height: 150px;
 }
 
 footer {
