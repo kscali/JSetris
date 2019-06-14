@@ -13,11 +13,9 @@
     <link rel="stylesheet" href="styles.css" />
     <title>Tetris</title>
   </head>
-  <body>
+  <body id="body">
     <div class="wrapper">
       <header class="text-center">
-        <!-- <img src="./images/tetris.jpg" alt="tetris-logo" /> -->
-        <h1 class="tetris-header">Tetris</h1>
         <nav>
           <ul>
             <li
@@ -27,14 +25,16 @@
             >
               Instructions
             </li>
-            <li id="start">
-              Start
+            <li>
+              <button id="start">Start</button>
             </li>
             <li id="pause">Pause</li>
             <li id="reset">Reset</li>
-            <li id="music">Music On</li>
+            <li id="music">Music Off</li>
           </ul>
         </nav>
+        <!-- <img src="./images/tetris.jpg" alt="tetris-logo" /> -->
+        <h1 class="tetris-header">Tetris</h1>
       </header>
       <section class="container-fluid text-center">
         <div
@@ -63,10 +63,11 @@
               <div class="modal-body">
                 <p>- Use the arrow keys to move left or right.</p>
                 <p>- Press down to speed up descent.</p>
-                <p>- Rotate left or right by pressing "a" or "s".</p>
+                <p>- Rotate left or right by pressing "q" or "w".</p>
               </div>
               <div class="modal-footer">
                 <button
+                  id="myBtn"
                   type="button"
                   class="btn btn-secondary"
                   data-dismiss="modal"
@@ -78,7 +79,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col next-piece-div">
+          <div class="next-piece-div">
             <h4>Next Piece</h4>
             <canvas
               id="next-piece"
@@ -87,7 +88,10 @@
               height="150"
             ></canvas>
           </div>
-          <div class="col-5">
+          <div class="col5">
+            <canvas id="tetris" width="240" height="400"></canvas>
+          </div>
+          <div>
             <div class="score-level">
               <div>
                 <h4>Score</h4>
@@ -102,10 +106,6 @@
                 </div>
               </div>
             </div>
-            <canvas id="tetris" width="240" height="400"></canvas>
-          </div>
-          <div class="col social-col">
-            controls
           </div>
         </div>
       </section>
@@ -127,6 +127,7 @@
             alt=""
         /></a>
       </footer>
+      <audio id="bg-music" src="./sounds/Tetris.ogg" autoplay loop></audio>
     </div>
     <script type="text/javascript" src="tetris.js"></script>
     <script
