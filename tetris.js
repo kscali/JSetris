@@ -151,9 +151,9 @@ function gameOverModal() {
   overlay.classList.add("modal-open");
   modal[0].style.display = "block";
   header.innerText = "Game Over";
-  body[0].innerText = "Play Again?";
   modalDiv.setAttribute("aria-hidden", "false");
   modalDiv.classList.add("show");
+  body[0].innerText = "Play Again?";
 }
 
 function resetModal() {
@@ -161,6 +161,20 @@ function resetModal() {
   modal[0].style.display = "none";
   modalDiv.setAttribute("aria-hidden", "true");
   modalDiv.classList.remove("show");
+  header.innerText = "How To Play";
+  body[0].innerText = "";
+
+  let p1 = document.createElement("p");
+  let p2 = document.createElement("p");
+  let p3 = document.createElement("p");
+
+  p1.innerText = "- Use the arrow keys to move left or right.";
+  p2.innerText = "- Press down to speed up descent.";
+  p3.innerText = "- Rotate left or right by pressing 'q' or 'w'.";
+
+  body[0].appendChild(p1);
+  body[0].appendChild(p2);
+  body[0].appendChild(p3);
 }
 
 // Get the button that opens the modal
@@ -287,8 +301,6 @@ function clearBlocks() {
     ++y;
 
     player.score += rowCount * 10;
-    player.blocksCleared += rowCount;
-    lines.innerText = levelSize - rowCount;
 
     rowCount *= 2;
     whoosh.play();
